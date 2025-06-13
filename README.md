@@ -9,7 +9,7 @@ The project automates the collection of all product data from the site, includin
 - Secondary nutrition information (unsaturated fats, sugar, salt, portion size)
 - Final output saved as a JSON file
 
-The project is structured for future expansion with FastAPI modules for API access.
+Includes full test coverage and modular architecture for scraping, data access, and API functionality.
 
 ---
 
@@ -29,22 +29,29 @@ The project is structured for future expansion with FastAPI modules for API acce
 ```
 MacMenuScraper/
 ├── app/
-│   ├── models.py         # Pydantic models for product schema
-│   ├── api/              # FastAPI endpoints
-│   └── main.py           # FastAPI app entry point
-│
-├── scraper/
-│   ├── parser/
-│   │   └── main_parser.py    # Main parsing logic, multithreading, retries
-│   └── utils/
-│       └── helpers.py        # WebDriver setup, utilities, wait conditions
+│   ├── __init__.py
+│   ├── api.py            # FastAPI endpoints
+│   ├── enums.py          # Enum for allowed product fields (e.g. calories, fats...)
+│   ├── main.py           # FastAPI app entry point
+│   └── models.py         # Pydantic models for product schema
 │
 ├── data/
 │   └── products.json     # Output file with scraped data
 │
-├── config.py             # Constants (URL, paths, headers)
+├── scraper/
+│   ├── __init__.py
+│   ├── parser.py         # Main parsing logic, multithreading, retries
+│   └── utils.py          # WebDriver setup, helpers, and wait conditions
+│
+├── tests/
+│   ├── __init__.py
+│   ├── test_api.py       # Tests for FastAPI endpoints
+│   └── test_scraper.py   # Tests for scraper functionality
+│
+├── config.py             # Constants (URL, paths, selectors)
+├── .gitignore            # Ignored files and folders
 ├── requirements.txt      # Project dependencies
-└── README.md             # Documentation
+└── README.md             # Project documentation
 ```
 
 ---
@@ -62,7 +69,7 @@ pip install -r requirements.txt
 To collect all products and save them into JSON:
 
 ```bash
-python scraper/parser/main_parser.py
+python scraper/parser.py
 ```
 
 The result will be saved in:
